@@ -769,14 +769,345 @@ curl --location --request DELETE 'http://127.0.0.1:5000/Supplier' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTE0MTM1NywianRpIjoiMDgzYjAxNjMtYzZiZC00MDY0LThmOGQtMmIyMDc1OGQzMDJkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUwMWRiZmJjLTZmNjUtNDA1ZC1hZWI4LTFhNjc4YTBmOTYwNSIsIm5iZiI6MTcwOTE0MTM1NywiY3NyZiI6ImIzMWVmYTllLTE3NGYtNGYyMC1iODQzLWJjMjE2NmU0Y2RhNyIsImV4cCI6MTcwOTE0MTk1N30.69CyBjkZ1f8EKZf8IqSIBrwu-Ixmlvcm5BQ4qWKHYMc'
 ```
 
+### Create a product
+Create and return products
 
+* **URL** <br />
+/Supplier/Products
 
+* **Method** <br />
+POST
 
+* **URL Params** <br />
+None
 
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "products": [
+        {
+            "name": "banana",
+            "quantity": 10,
+            "price": 1.1
+        },
+        {
+            "name": "apple",
+            "quantity":10,
+            "price": 5
+        }
+    ]
+}
+```
 
+* **Success response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+[
+    {
+        "id": "f3791325-c73e-46f9-ab84-140417310cc2",
+        "name": "banana",
+        "price": 1.1,
+        "quantity": 10
+    },
+    {
+        "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+        "name": "apple",
+        "price": 5.0,
+        "quantity": 10
+    }
+]
+```
 
+* **Error response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "Supplier not found"}` <br />
+    OR
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}` <br />
+    OR
+  * **Code:** 409 <br />
+  **Content:** `{"message": "product already exists"}` <br />
 
+* **Sample call:** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Supplier/Products' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3NTMxMCwianRpIjoiMjBmYWRhNmMtYTU0OC00Yjc2LWEwZTgtNzM0N2YxM2U1NzNkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3NTMxMCwiY3NyZiI6ImZjYjI0N2JhLWFjOTItNGIxMi05N2UyLTZlZTBhY2I2MGE3MSIsImV4cCI6MTcwOTU3NTkxMH0.dYu5qZJeuq8U4mLVaV7V7_uF5dZ8w-BbTJhRlX9sVLg' \
+--data '{
+    "products": [
+        {
+            "name": "banana",
+            "quantity": 10,
+            "price": 1.1
+        },
+        {
+            "name": "apple",
+            "quantity":10,
+            "price": 5
+        }
+    ]
+}'
+```
 
+### Get Products
+Returns all products of supplier
 
+* **URL** <br />
+/Supplier/Products
 
-    
+* **Method** <br />
+GET
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+[
+    {
+        "id": "f3791325-c73e-46f9-ab84-140417310cc2",
+        "name": "banana",
+        "price": 1.1,
+        "quantity": 2
+    },
+    {
+        "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+        "name": "apple",
+        "price": 5.0,
+        "quantity": 1
+    }
+]
+```
+
+* **Error response** <br />
+  * **Code:** 404 <br />
+    **Content:** `{"message": "Supplier not found"}`
+
+### Update product
+Change a product's name, quantity, and price
+
+* **URL** <br />
+/Customer/Product
+
+* **Method** <br />
+PUT
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+    "name": "apple",
+    "quantity": 10,
+    "price": 0.9
+}
+```
+
+* **Success response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+{
+    "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+    "name": "apple",
+    "price": 0.9,
+    "quantity": 10
+}
+```
+
+* **Error response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "product not found"}`
+    OR
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}`
+    OR
+  * **Code:** 403 <br />
+  **Content:** `{"message": "You do not have permission for this function"}`
+
+* **Sample call** <br />
+```json
+curl --location --request PUT 'http://127.0.0.1:5000/Supplier/Product' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3Njg2OSwianRpIjoiYjExOGM0NjYtMjZmYS00MDY0LTlkYzUtNWFmOTU2NGNhMGRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3Njg2OSwiY3NyZiI6ImI5ZDUzZGRiLTI0YTgtNDI2Zi04ZTZmLWEzMGI1NmUxY2MxYSIsImV4cCI6MTcwOTU3NzQ2OX0.KafVXCVHaqxQRgcfrszEgFhwr32p2lAfM1RE3UOHI3c' \
+--data '{
+    "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+    "name": "apple",
+    "quantity": 10,
+    "price": 0.9
+}'
+```
+
+### Delete a product
+Delete a product of a supplier
+
+* **URL** <br />
+/Supplier/Product
+
+* **Method** <br />
+DELETE
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f"
+}
+```
+
+* **Success response** <br />
+**Code:** 200 <br />
+**Content:** `{"message": "product deleted"}`
+
+* **Error response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "product not found"}`
+
+* **Sample call** <br />
+```json
+curl --location --request DELETE 'http://127.0.0.1:5000/Supplier/Product' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3Njg2OSwianRpIjoiYjExOGM0NjYtMjZmYS00MDY0LTlkYzUtNWFmOTU2NGNhMGRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3Njg2OSwiY3NyZiI6ImI5ZDUzZGRiLTI0YTgtNDI2Zi04ZTZmLWEzMGI1NmUxY2MxYSIsImV4cCI6MTcwOTU3NzQ2OX0.KafVXCVHaqxQRgcfrszEgFhwr32p2lAfM1RE3UOHI3c' \
+--data '{
+    "id": "0d5878db-8064-47b7-84ec-f6ba9d35169f"
+}'
+```
+
+### Supplier make shipment
+Supplier ships products to inventory table
+
+* **URL** <br />
+/Supplier/Shipments
+
+* **Method** <br />
+POST
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "products":[
+        {
+            "productId": "f3791325-c73e-46f9-ab84-140417310cc2",
+            "name": "banana",
+            "quantity": 8
+        },
+        {
+            "productId": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+            "name": "apple",
+            "quantity": 9
+        }
+    ]
+}
+```
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+{
+    "date": "Mon, 04 Mar 2024 12:03:08 GMT",
+    "id": "3202c03b-fe92-489f-a96e-d51585399ac9",
+    "products": [
+        {
+            "name": "banana",
+            "quantity": 8
+        },
+        {
+            "name": "apple",
+            "quantity": 9
+        }
+    ]
+}
+```
+
+* **Error response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "product not found"}`
+    OR
+  * **Code:** 400 <br />
+  **Content:** `{"message": "invalid input}`
+
+* **Sample call** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Supplier/Shipments' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3NTMxMCwianRpIjoiMjBmYWRhNmMtYTU0OC00Yjc2LWEwZTgtNzM0N2YxM2U1NzNkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3NTMxMCwiY3NyZiI6ImZjYjI0N2JhLWFjOTItNGIxMi05N2UyLTZlZTBhY2I2MGE3MSIsImV4cCI6MTcwOTU3NTkxMH0.dYu5qZJeuq8U4mLVaV7V7_uF5dZ8w-BbTJhRlX9sVLg' \
+--data '{
+    "products":[
+        {
+            "productId": "f3791325-c73e-46f9-ab84-140417310cc2",
+            "name": "banana",
+            "quantity": 8
+        },
+        {
+            "productId": "0d5878db-8064-47b7-84ec-f6ba9d35169f",
+            "name": "apple",
+            "quantity": 9
+        }
+    ]
+}'
+```
+
+### View shipment
+view shipment of supplier
+
+* **URL** <br />
+/Supplier/Shipment
+
+* **Method** <br />
+GET
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+[
+    {
+        "date": "Mon, 04 Mar 2024 12:03:08 GMT",
+        "id": "3202c03b-fe92-489f-a96e-d51585399ac9",
+        "products": [
+            {
+                "name": "banana",
+                "quantity": 8
+            },
+            {
+                "name": "apple",
+                "quantity": 9
+            }
+        ]
+    }
+]
+```
+
+* **Error Response** <br />
+  **Code:** 400 <br />
+  **Content:** `{"message": "supplier not found"}`
+
+* **Sample Call** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Supplier/Shipments' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3OTA3MiwianRpIjoiYTcyZDJkNGQtZWNmYy00N2Y1LTllOWYtOTA0OWQ4YmQ5NGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3OTA3MiwiY3NyZiI6IjZiYzE0MWM1LTExNzUtNDRiYi1iOTY0LTIzYmZiYzRlNmY5NSIsImV4cCI6MTcwOTU3OTY3Mn0.brceUiMNhoE4X-vSWKXHT16WB7d6hEqTeh2HknABrXU'
+```
