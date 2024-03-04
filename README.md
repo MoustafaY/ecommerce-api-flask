@@ -90,6 +90,108 @@ curl --location 'http://127.0.0.1:5000/Customers' \
 }'
 ```
 
+### Get all customers
+Returns all customers in database, for development use only
 
+* **URL** <br />
+/Customers
 
+* **Method** <br />
+GET
 
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+[
+    {
+        "balance": 0.0,
+        "email": "email@gmail.com",
+        "name": "Moustafa"
+    },
+    {
+        "balance": 0.0,
+        "email": "lil@gmail.com",
+        "name": "Lily"
+    }
+]
+```
+
+* **Sample Call:** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Customers'
+```
+
+### Update Customer information
+Changes customer name
+
+* **URL** <br />
+/Customer
+
+* **Method** <br />
+PUT
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required:** <br />
+```json
+{
+    "name": "suality"
+}
+```
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:**
+```json
+{
+"balance": 0.0,
+"email": "email@gmail.com",
+"name": "suality"
+}
+```
+
+* **Error Response** <br />
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}`
+
+* **Sample Call:** <br />
+```json
+curl --location --request PUT 'http://127.0.0.1:5000/Customer' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU0NjEyMiwianRpIjoiNDMyZGM4MGQtYzI5Mi00ZmNiLTkzNzUtMTU4NzM4YTBjZjlkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImZhNTI5ZTVhLTM2ZjAtNDA5YS1hZjUwLWFjZjFiZGUxOTdmYyIsIm5iZiI6MTcwOTU0NjEyMiwiY3NyZiI6ImQ5MDc4YzI5LWM0MmItNDE0ZS05YWRhLWRjNGYxNzNmOWI1ZSIsImV4cCI6MTcwOTU0NjcyMn0.hs1AMJ9TFjI23w9PT62_NB26xkM1tkV2vx-sRDMmETw' \
+--data '{
+    "name": "suality"
+}'
+```
+
+### Delete a customer
+Removes a customer from database
+
+* **URL** <br />
+/Customer
+
+* **Method** <br />
+DELETE
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** `{"message": "Customer deleted"}`
+
+* **Error Response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "Customer not found"}`
