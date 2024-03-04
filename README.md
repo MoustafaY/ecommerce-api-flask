@@ -195,6 +195,11 @@ None
 * **Error Response** <br />
   * **Code:** 404 <br />
   **Content:** `{"message": "Customer not found"}`
+* **Sample call** <br />
+```json
+curl --location --request DELETE 'http://127.0.0.1:5000/Customer' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTE0MTM1NywianRpIjoiMDgzYjAxNjMtYzZiZC00MDY0LThmOGQtMmIyMDc1OGQzMDJkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUwMWRiZmJjLTZmNjUtNDA1ZC1hZWI4LTFhNjc4YTBmOTYwNSIsIm5iZiI6MTcwOTE0MTM1NywiY3NyZiI6ImIzMWVmYTllLTE3NGYtNGYyMC1iODQzLWJjMjE2NmU0Y2RhNyIsImV4cCI6MTcwOTE0MTk1N30.69CyBjkZ1f8EKZf8IqSIBrwu-Ixmlvcm5BQ4qWKHYMc'
+```
 
 ### Add to shopping cart
 A customer adds a product from inventory to shopping cart
@@ -530,6 +535,238 @@ None
 ```json
 curl --location 'http://127.0.0.1:5000/Customer/Transcripts' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU1MDAxMCwianRpIjoiNzkxZDE0MTEtYzY5Zi00OGRjLWE0YzYtMWM2OGUwZWEwNzAwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImZhNTI5ZTVhLTM2ZjAtNDA5YS1hZjUwLWFjZjFiZGUxOTdmYyIsIm5iZiI6MTcwOTU1MDAxMCwiY3NyZiI6ImVjYzE5MmM0LTIzOWMtNDcxMy1hODBkLTZjOTkzNjg4NTBhYiIsImV4cCI6MTcwOTU1MDYxMH0.ja-wuownTHFGkyD-rEGGk0bBoQBTCqOG5aCrwXpN8Kw'
+```
+
+### Make payments
+Customer pays their balance
+
+* **URL** <br />
+/Customer
+
+* **Method** <br />
+POST
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "payment": 1
+}
+```
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+{
+    "balance": 5.1,
+    "email": "email@gmail.com",
+    "name": "Moustafa"
+}
+```
+
+* **Error response** <br />
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}`
+
+* **Sample call** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Customer' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3NTQ2OCwianRpIjoiNTczMWU1OWEtZDlhNS00NGFmLThhZmUtYWJhZTkwMDc4ZDE5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImUzZDYwMzQwLTJhMjItNDYzYS1hMzQyLWU1YzQxNmFiNGRhMiIsIm5iZiI6MTcwOTU3NTQ2OCwiY3NyZiI6IjkwMDgxMDFlLTQwZjEtNDIxNC1iYzkxLTgyNDRjNjVjMTJlYiIsImV4cCI6MTcwOTU3NjA2OH0.-YIrTDn3iYrtl1p-9_WcbtelLvhe6qiLkdUNPEQ1Ay0' \
+--data '{
+    "payment": 1
+}'
+```
+
+### Create a supplier
+Creates and return new suppliers
+
+* **URL** <br />
+/Suppliers
+
+* **Method** <br />
+POST
+
+* **URL Params** <br />
+None
+
+* **JWT required** <br />
+None
+
+* **Data Params** <br />
+**Required:** <br />
+```json
+{
+    "suppliers":[
+        {
+            "name": "Yousef",
+            "email": "joe@gmail.com",
+            "password": "joe"
+        },
+        {
+            "name": "Mohamed",
+            "email": "kebz@gmail.com",
+            "password": "kebz"
+        }
+    ]
+}
+```
+
+* **Success Response** <br />
+  **Code:** 200 <br />
+  **Content:** <br />
+```json
+[
+    {
+        "email": "joe@gmail.com",
+        "name": "Yousef"
+    },
+    {
+        "email": "kebz@gmail.com",
+        "name": "Mohamed"
+    }
+]
+```
+
+* **Error response** <br />
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}` <br />
+  OR
+  * **Code:** 409 <br />
+  **Content:** `{"message": "supplier already exists"}`
+
+* **Sample Call:** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Suppliers' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "suppliers":[
+        {
+            "name": "Yousef",
+            "email": "joe@gmail.com",
+            "password": "joe"
+        },
+        {
+            "name": "Mohamed",
+            "email": "kebz@gmail.com",
+            "password": "kebz"
+        }
+    ]
+}'
+```
+
+### Get all suppliers
+Returns all suppliers in database, for development use only
+
+* **URL** <br />
+/Suppliers
+
+* **Method** <br />
+GET
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+[
+    {
+        "email": "joe@gmail.com",
+        "name": "Yousef"
+    },
+    {
+        "email": "kebz@gmail.com",
+        "name": "Mohamed"
+    }
+]
+```
+
+* **Sample Call:** <br />
+```json
+curl --location 'http://127.0.0.1:5000/Suppliers'
+```
+
+### Update Supplier information
+Changes supplier name
+
+* **URL** <br />
+/Supplier
+
+* **Method** <br />
+PUT
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required:** <br />
+```json
+{
+    "name": "Moustafa"
+}
+```
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:**
+```json
+{
+"balance": 0.0,
+"email": "joe@gmail.com",
+"name": "Moustafa"
+}
+```
+
+* **Error Response** <br />
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}`
+
+* **Sample Call:** <br />
+```json
+curl --location --request PUT 'http://127.0.0.1:5000/Supplier' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTE0MTM1NywianRpIjoiMDgzYjAxNjMtYzZiZC00MDY0LThmOGQtMmIyMDc1OGQzMDJkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUwMWRiZmJjLTZmNjUtNDA1ZC1hZWI4LTFhNjc4YTBmOTYwNSIsIm5iZiI6MTcwOTE0MTM1NywiY3NyZiI6ImIzMWVmYTllLTE3NGYtNGYyMC1iODQzLWJjMjE2NmU0Y2RhNyIsImV4cCI6MTcwOTE0MTk1N30.69CyBjkZ1f8EKZf8IqSIBrwu-Ixmlvcm5BQ4qWKHYMc' \
+--data '{
+    "name": "Moustafa"
+}'
+```
+
+### Delete a supplier
+Removes a supplier from database
+
+* **URL** <br />
+/Supplier
+
+* **Method** <br />
+DELETE
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** `{"message": "Supplier deleted"}`
+
+* **Error Response** <br />
+  * **Code:** 404 <br />
+  **Content:** `{"message": "Supplier not found"}`
+
+* **Sample call** <br />
+```json
+curl --location --request DELETE 'http://127.0.0.1:5000/Supplier' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTE0MTM1NywianRpIjoiMDgzYjAxNjMtYzZiZC00MDY0LThmOGQtMmIyMDc1OGQzMDJkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUwMWRiZmJjLTZmNjUtNDA1ZC1hZWI4LTFhNjc4YTBmOTYwNSIsIm5iZiI6MTcwOTE0MTM1NywiY3NyZiI6ImIzMWVmYTllLTE3NGYtNGYyMC1iODQzLWJjMjE2NmU0Y2RhNyIsImV4cCI6MTcwOTE0MTk1N30.69CyBjkZ1f8EKZf8IqSIBrwu-Ixmlvcm5BQ4qWKHYMc'
 ```
 
 
