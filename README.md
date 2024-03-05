@@ -1111,3 +1111,78 @@ None
 curl --location 'http://127.0.0.1:5000/Supplier/Shipments' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU3OTA3MiwianRpIjoiYTcyZDJkNGQtZWNmYy00N2Y1LTllOWYtOTA0OWQ4YmQ5NGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTU3OTA3MiwiY3NyZiI6IjZiYzE0MWM1LTExNzUtNDRiYi1iOTY0LTIzYmZiYzRlNmY5NSIsImV4cCI6MTcwOTU3OTY3Mn0.brceUiMNhoE4X-vSWKXHT16WB7d6hEqTeh2HknABrXU'
 ```
+
+### Login
+A supplier or customer logs in to their account
+
+* **URL** <br />
+/login
+
+* **Method** <br />
+POST
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+**Required** <br />
+```json
+{
+    "email": "joe@gmail.com",
+    "password": "joe",
+    "user": "supplier"
+}
+```
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** <br />
+```json
+{
+    "message": "Hello Yousef, you are logged in!",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTY0NjUxMywianRpIjoiZDBkZmRlN2YtYThjMy00NDlhLWI0ODktN2Q4OTJmNzI2Y2VhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM0ZDM0NzFlLTI5ZjEtNGZlMS05YWM1LThkOTZiNzU2MjU0MCIsIm5iZiI6MTcwOTY0NjUxMywiY3NyZiI6ImY0NTQxMjJmLTNhMzItNDBmNC05OGUxLTRhNDc5MzRhZjRjMCIsImV4cCI6MTcwOTY0NzExM30.qUGsrj-F1Z296tBjf5GBNv2xTBipPit9xM7dznYAAcs"
+}
+```
+
+* **Error Response** <br />
+  * **Code:** 400 <br />
+  **Content:** `{"message": "Invalid input"}`
+    OR
+  * **Code:** 404 <br />
+  **Content:** `{"message": "Incorrect password or email"}`
+
+* **Sample Call:** <br />
+```json
+curl --location 'http://127.0.0.1:5000/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "joe@gmail.com",
+    "password": "joe",
+    "user": "supplier"
+}'
+```
+
+### Logout
+Supplier or customer logs out of their account
+
+* **URL** <br />
+/logout
+
+* **Method** <br />
+DELETE
+
+* **URL Params** <br />
+None
+
+* **Data Params** <br />
+None
+
+* **Success Response** <br />
+**Code:** 200 <br />
+**Content:** `{"message": "logged out!"}`
+
+* **Sample Call:** <br />
+```json
+curl --location --request DELETE 'http://127.0.0.1:5000/logout' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTU0NzgxNSwianRpIjoiMjM1NmViYTUtMDFhOS00Y2M2LWE3ZmItZTMwMzFkNjMxN2FkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImM3MTcwYmZkLWJlZjYtNDgxOC04ODliLWI1MTU0NmI2NmZlYSIsIm5iZiI6MTcwOTU0NzgxNSwiY3NyZiI6IjYyOTM1ODJlLTRmNzgtNGM4Ny05ZGNmLWY3YzIwYTVmMTMwNiIsImV4cCI6MTcwOTU0ODQxNX0.kyHabv-MOZSbmGu_iIhz7rLuuEedjB-Ztoa_UWYf4k4'
+```
